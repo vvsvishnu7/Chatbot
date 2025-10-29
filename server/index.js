@@ -7,7 +7,15 @@ const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 
 const app = express();
-app.use(cors());
+app.use(require('cors')({
+  origin: [
+    "https://dooper-chatbot.vercel.app", 
+    "http://localhost:3000"               
+  ],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);

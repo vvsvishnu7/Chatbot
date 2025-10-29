@@ -11,7 +11,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { email, password });
+      await axios.post('https://dooper-chatbot.onrender.com/api/auth/register', { email, password });
       alert('Registration successful! Please login.');
       navigate('/login');
     } catch (error) {

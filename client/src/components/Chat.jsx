@@ -23,7 +23,7 @@ const Chat = ({ token, onLogout }) => {
 
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/chat/generate',
+        'https://dooper-chatbot.onrender.com/api/chat/generate',
         { prompt: input },
         { headers: { Authorization: `Bearer ${token}` } }
       );
