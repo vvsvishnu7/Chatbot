@@ -4,9 +4,10 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Chat from './components/Chat';
 
-
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+
 
   useEffect(() => {
     if (token) {
@@ -16,22 +17,33 @@ function App() {
     }
   }, [token]);
 
+
   const handleLogout = () => {
-    setToken(null);
+    localStorage.removeItem('token');
+    setToken('');
   };
 
   return (
     <Router>
       <Routes>
-        
+       
         <Route path="/" element={<Navigate to="/signup" />} />
+
         <Route path="/signup" element={<Register />} />
         <Route path="/login" element={<Login setToken={setToken} />} />
-        
+
         <Route
           path="/chat"
-          element={token ? <Chat token={token} onLogout={handleLogout} /> : <Navigate to="/login" />}
+          element={
+            token ? (
+              <Chat token={token} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
         />
+
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
