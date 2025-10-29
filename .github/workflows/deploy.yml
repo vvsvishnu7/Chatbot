@@ -1,0 +1,45 @@
+name: Deploy Dooper Chatbot
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Step 3: Build Frontend (React)
+      - name: Install & Build Frontend
+        working-directory: ./client
+        run: |
+          npm install
+          npm run build
+
+      # Step 4: Notify Render to redeploy backend
+      - name: Trigger Render Deploy
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Triggering Render deployment..."
+          curl "$RENDER_DEPLOY_HOOK_URL"
+
+      # Step 5: Trigger Vercel redeploy (optional)
+      - name: Trigger Vercel Deploy
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Triggering Vercel deployment..."
+          curl -X POST "$VERCEL_DEPLOY_HOOK_URL"
