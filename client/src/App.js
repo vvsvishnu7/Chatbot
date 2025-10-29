@@ -4,6 +4,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Chat from './components/Chat';
 
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
