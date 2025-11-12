@@ -9,7 +9,7 @@ const chatRoutes = require('./routes/chat');
 const app = express();
 app.use(require('cors')({
   origin: [
-    "https://dooper-chatbot.vercel.app", 
+    "https://vvs-chatbot.vercel.app", 
     "http://localhost:3000"               
   ],
   methods: ["GET", "POST"],
